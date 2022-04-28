@@ -51,7 +51,7 @@ Utilisant le script [wpa\_key\_derivation.py](files/wpa_key_derivation.py) comme
 - Lire une passphrase à partir d’un fichier (wordlist)
 - Dériver les clés à partir de la passphrase que vous venez de lire et des autres éléments nécessaires contenus dans la capture (cf [exercice 1](#1-obtention-des-paramètres-pour-la-dérivation-des-clés-wpa))
 - Récupérer le MIC du dernier message du 4-way handshake dans la capture
-- Avec les clés dérivées à partir de la passphrase, nonces, etc., calculer le MIC du dernier message du 4-way handshake à l’aide de l’algorithme Michael (cf l’explication à la fin de ce document)
+- Avec les clés dérivées à partir de la passphrase, nonces, etc., calculer le MIC (**Attention KCK utilisée pour calculer le MIC dans le cas du 4-way handshake !**) du dernier message du 4-way handshake à l’aide de l’algorithme Michael (cf l’explication à la fin de ce document)
 - Comparer les deux MIC
    - Identiques &rarr; La passphrase utilisée est correcte
    - Différents &rarr; Essayer avec une nouvelle passphrase
