@@ -62,6 +62,7 @@ print(len(wpa))
 ANonce = ""
 cpt = 0
 mic_to_test = ""
+SNonce = ""
 for pkt in wpa:
     if pkt.haslayer(Dot11Beacon) or pkt.haslayer(Dot11ProbeResp):
         if pkt.type == 0 and pkt.subtype == 8:
