@@ -72,7 +72,7 @@ for pkt in wpa:
         print("MAC address client %s " % pkt.addr1)
         print("AP address %s " % pkt.addr3)
 
-    # GET ANonce, SNonce, client mic and mic to test in 4-Way Handshake
+    # GET ANonce, SNonce, client mic and the mic to test in 4-Way Handshake
     if pkt.haslayer(EAPOL):
         print("Frame number : ", cpt4Handshake)
         # GET ANonce
