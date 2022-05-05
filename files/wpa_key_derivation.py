@@ -61,11 +61,11 @@ for pkt in wpa:
         if pkt.type == 0 and pkt.subtype == 8:
             ssid = pkt.info
             print("SSID" , ssid)
-            APmac = bytes(pkt.addr2, "utf-8")
+            APmac = a2b_hex(pkt.addr2.replace(":", ""))
             print("APmAc", APmac)
     # GET MAC client and verify AP MAC
     if pkt.type == 0 and pkt.subtype == 0xB and len(Clientmac) == 0:
-        Clientmac = bytes(pkt.addr1, "utf-8")
+        Clientmac = a2b_hex(pkt.addr1.replace(":", ""))
         print("MAC address client %s " % pkt.addr1)
         print("AP address %s " % pkt.addr3)
 
@@ -102,9 +102,9 @@ B = min(APmac, Clientmac) + max(APmac, Clientmac) + min(ANonce, SNonce) + max(AN
 print("\n\nValues used to derivate keys")
 print("============================")
 print("Passphrase: ", passPhrase, "\n")
-print("SSID: ", ssid, "\n")
-print("AP Mac: ", APmac, "\n")
-print("CLient Mac: ", Clientmac, "\n")
+print("SSID: ", str(ssid, "utf-8", "\n"))
+print("AP Mac: ", b2a_hex(APmac), "\n")
+print("CLient Mac: ", b2a_hex(Clientmac), "\n")
 print("AP Nonce: ", b2a_hex(ANonce), "\n")
 print("Client Nonce: ", b2a_hex(SNonce), "\n")
 
