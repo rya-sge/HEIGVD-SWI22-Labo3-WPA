@@ -47,57 +47,55 @@ wpa = rdpcap("wpa_handshake.cap")
 # Important parameters for key derivation - most of them can be obtained from the pcap file
 passPhrase = "actuelle"
 A = "Pairwise key expansion"  # this string is used in the pseudo-random function
+
+
+####### Begin modification ########
+# Goal : Get ssid, AP MAC, ANonce, SNonce, Client mic test and data #
 ssid = ""
 APmac = ""
 Clientmac = ""
-print(len(wpa))
 ANonce = ""
-cpt = 0
+cpt4Handshake = 0
 mic_to_test = ""
 SNonce = ""
 for pkt in wpa:
-    # GET ssid and AP MAC
+    # GET ssid and AP MAC with a beacon frame
     if pkt.haslayer(Dot11Beacon) or pkt.haslayer(Dot11ProbeResp):
         if pkt.type == 0 and pkt.subtype == 8:
             ssid = pkt.info
             print("SSID" , ssid)
             APmac = a2b_hex(pkt.addr2.replace(":", ""))
             print("APmAc", APmac)
-    # GET MAC client and verify AP MAC
+    # GET Client Mac and verify AP MAC with an Authentication frame
     if pkt.type == 0 and pkt.subtype == 0xB and len(Clientmac) == 0:
         Clientmac = a2b_hex(pkt.addr1.replace(":", ""))
         print("MAC address client %s " % pkt.addr1)
         print("AP address %s " % pkt.addr3)
 
+    # GET ANonce, SNonce, client mic and mic to test in 4-Way Handshake
     if pkt.haslayer(EAPOL):
-        print("Frame number : ", cpt)
+        print("Frame number : ", cpt4Handshake)
         # GET ANonce
-        if cpt == 0:
+        if cpt4Handshake == 0:
             ANonce = pkt[EAPOL].load[13:13 + 0x20]
-            print("ANonce", pkt[EAPOL].load[13:13 + 0x20].hex())
         # GET SNonce and client mic
-        if cpt == 1:
+        if cpt4Handshake == 1:
             SNonce = pkt[EAPOL].load[13:13 + 0x20]
-            print("SNonce", pkt[EAPOL].load[13:13 + 0x20].hex())
             client_mic = pkt[EAPOL].load[77:77 + 16]
-            print("Client mic", client_mic.hex())
-        # GET MIC
-        if cpt == 3:
+        # GET MIC test
+        if cpt4Handshake == 3:
             mic_to_test = pkt[EAPOL].load[77:77 + 16]
             data = bytes(pkt[EAPOL])
             # Effacement du mic dans la payload
             toReplace = a2b_hex("00000000000000000000000000000000")
             data = data.replace(mic_to_test, toReplace)
-            print("MIC To test", mic_to_test)
-        cpt = cpt + 1
+        cpt4Handshake = cpt4Handshake + 1
 
-
+####### End modification #####
 # This is the MIC contained in the 4th frame of the 4-way handshake
 # When attacking WPA, we would compare it to our own MIC calculated using passphrases from a dictionary
 B = min(APmac, Clientmac) + max(APmac, Clientmac) + min(ANonce, SNonce) + max(ANonce,
                                                                               SNonce)  # used in pseudo-random function
-
-# data = a2b_hex("0103005f02030a0000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")  # cf "Quelques détails importants" dans la donnée
 
 print("\n\nValues used to derivate keys")
 print("============================")
