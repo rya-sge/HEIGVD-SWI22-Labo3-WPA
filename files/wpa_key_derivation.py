@@ -102,9 +102,9 @@ B = min(APmac, Clientmac) + max(APmac, Clientmac) + min(ANonce, SNonce) + max(AN
 print("\n\nValues used to derivate keys")
 print("============================")
 print("Passphrase: ", passPhrase, "\n")
-print("SSID: ", ssid, "\n")
-print("AP Mac: ", APmac, "\n")
-print("CLient Mac: ", Clientmac, "\n")
+print("SSID: ", str(ssid, "utf-8", "\n"))
+print("AP Mac: ", b2a_hex(APmac), "\n")
+print("CLient Mac: ", b2a_hex(Clientmac), "\n")
 print("AP Nonce: ", b2a_hex(ANonce), "\n")
 print("Client Nonce: ", b2a_hex(SNonce), "\n")
 
