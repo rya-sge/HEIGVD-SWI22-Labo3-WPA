@@ -51,7 +51,7 @@ Utilisant le script [wpa\_key\_derivation.py](files/wpa_key_derivation.py) comme
 - Lire une passphrase à partir d’un fichier (wordlist)
 - Dériver les clés à partir de la passphrase que vous venez de lire et des autres éléments nécessaires contenus dans la capture (cf [exercice 1](#1-obtention-des-paramètres-pour-la-dérivation-des-clés-wpa))
 - Récupérer le MIC du dernier message du 4-way handshake dans la capture
-- Avec les clés dérivées à partir de la passphrase, nonces, etc., calculer le MIC (**Attention KCK utilisée pour calculer le MIC dans le cas du 4-way handshake !**) du dernier message du 4-way handshake à l’aide de l’algorithme Michael (cf l’explication à la fin de ce document)
+- Avec les clés dérivées à partir de la passphrase, nonces, etc., calculer le MIC du dernier message du 4-way handshake à l’aide de l’algorithme Michael (cf l’explication à la fin de ce document)
 - Comparer les deux MIC
    - Identiques &rarr; La passphrase utilisée est correcte
    - Différents &rarr; Essayer avec une nouvelle passphrase
@@ -114,17 +114,37 @@ Un fork du repo original . Puis, un Pull Request contenant **vos noms** et :
    - Captures d'écran de l'attaque hashcat
 -	**(Challenge optionnel)** Script ```scairodump.py``` **abondamment commenté/documenté** 
    - Capture d’écran de votre script en action
--	Envoyer le hash du commit et votre username GitHub et **les noms des participants** par email au professeur et à l'assistant
+- Envoyer le hash du commit et votre username GitHub et **les noms des participants** par email au professeur et à l'assistant
 
-### 3. Attaque PMKID
 
-Dictionnaire utilisé : `PasswordDictionary.txt`
 
-#### Script en action
+### 1. Obtention des paramètres pour la dérivation des clés WPA
 
-#### ![pmkid-console](./assets/pmkid-console.PNG)
+Script modifié :  [wpa_key_derivation.py](files/wpa_key_derivation.py) 
 
-#### Hashcat
+### 2. Scaircrack
+
+Script :  [scaircrack.py](files/scaircrack.py) 
+
+Utilise le dictionnaire : [wordlist.txt](files/wordlist.txt) 
+
+##### Script en action
+
+![Scaircrack](assets/Scaircrack.PNG)
+
+
+
+### 3.2 Attaque PMKID
+
+Script :  [pmkid_attack.py](files/pmkid_attack.py) 
+
+Utilise le dictionnaire : [PasswordDictionary.txt](files/PasswordDictionary.txt) 
+
+##### Script en action
+
+![pmkid-console](./assets/pmkid-console.PNG)
+
+### 3.3 Hashcat
 
 ![hashcat-password](./assets/hashcat-password.PNG)
 
