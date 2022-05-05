@@ -84,6 +84,10 @@ for pkt in wpa:
         # GET MIC
         if cpt == 3:
             mic_to_test = pkt[EAPOL].load[77:77 + 16]
+            data = bytes(pkt[EAPOL])
+            # Effacement du mic dans la payload
+            toReplace = a2b_hex("00000000000000000000000000000000")
+            data = data.replace(mic_to_test, toReplace)
             print("MIC To test", mic_to_test)
         cpt = cpt + 1
 
@@ -93,8 +97,7 @@ for pkt in wpa:
 B = min(APmac, Clientmac) + max(APmac, Clientmac) + min(ANonce, SNonce) + max(ANonce,
                                                                               SNonce)  # used in pseudo-random function
 
-data = a2b_hex(
-    "0103005f02030a0000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")  # cf "Quelques détails importants" dans la donnée
+# data = a2b_hex("0103005f02030a0000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")  # cf "Quelques détails importants" dans la donnée
 
 print("\n\nValues used to derivate keys")
 print("============================")
