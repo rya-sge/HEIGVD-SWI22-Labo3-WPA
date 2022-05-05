@@ -63,6 +63,7 @@ ANonce = ""
 cpt = 0
 mic_to_test = ""
 SNonce = ""
+#getlayer(Raw).load)[202:234]
 for pkt in wpa:
     if pkt.haslayer(Dot11Beacon) or pkt.haslayer(Dot11ProbeResp):
         if pkt.type == 0 and pkt.subtype == 8:
@@ -71,11 +72,11 @@ for pkt in wpa:
             APmac = bytes(pkt.addr2, "utf-8")
             print("APmAc", APmac)
     if pkt.type == 0 and pkt.subtype == 0xB and len(Clientmac) == 0:
-        Clientmac = bytes(pkt.addr2, "utf-8")
+        Clientmac = bytes(pkt.addr1, "utf-8")
         # ssid = pkt.info.decode()
         # APmac = a2b_hex(pkt.addr2)
         print("MAC address client %s " % pkt.addr1)
-        print("MAC address client %s " % pkt.addr3)
+        print("AP address %s " % pkt.addr3)
 
     if pkt.haslayer(EAPOL):
         print("Frame number : ", cpt)
