@@ -60,7 +60,7 @@ for pkt in wpa:
             mic_to_test = pkt[EAPOL].load[77:77 + 16]
         cpt = cpt + 1
 
-# Pour comparc
+# Pour comparer le mic en version hexadécimale
 mic_to_testDecoded = b2a_hex(mic_to_test).decode()
 
 # used in pseudo-random function
